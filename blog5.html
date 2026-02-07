@@ -4,6 +4,26 @@
     <meta charset="UTF-8">
     <title>DAY 5: Network Intrusion</title>
     <link rel="stylesheet" href="blog5.css">
+    <style>
+        .choice-confirmation-message {
+            color: #0f0;
+            font-size: 14px;
+            font-style: italic;
+            margin-top: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .terminal-body {
+            background-color: #111;
+            color: #0f0;
+            padding: 10px;
+            font-family: monospace;
+            height: 220px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+    </style>
 </head>
 <body>
 
@@ -17,31 +37,17 @@
 
     <div class="post">
         <p>
-            I found the building's network. Every previous tenant left digital traces. 
+            I found the building's network. Every previous tenant left digital traces.
             I can access their final emails, search histories, panic notes.<br><br>
 
-            Connection: <span class="danger">Wi‑Fi: "7B_YOURE_NEXT"</span>
+            Connection: <span class="danger">Wi-Fi: "7B_YOURE_NEXT"</span>
         </p>
     </div>
 
-
+    <!-- TERMINAL -->
     <div class="terminal">
         <div class="terminal-header">TERMINAL</div>
-        <div class="terminal-body" id="terminalOutput">
-<pre>
-$ who
-alex   - active 30 days ago - STATUS: MISSING
-sam    - active 45 days ago - STATUS: GONE
-jordan - active 60 days ago - STATUS: HERE (???)
-you    - active now         - STATUS: ???
-
-$ cat warnings.log
-DO NOT TRUST MRS HENDERSON
-THE LANDLINE IS A TRAP
-THEY LEARN FROM YOUR FEARS
-ESCAPE IS A LIE
-</pre>
-        </div>
+        <div class="terminal-body" id="terminalOutput"></div>
 
         <div class="terminal-commands">
             <button onclick="runCommand('trace')">trace_call landline</button>
@@ -49,43 +55,97 @@ ESCAPE IS A LIE
             <button onclick="runCommand('firewall')">firewall --enable --max</button>
             <button onclick="runCommand('message')">message --to=alex --"how survive?"</button>
         </div>
+
+        <!-- Confirmation message -->
+        <div id="confirmationMessage" class="choice-confirmation-message">
+            Your action has been recorded.
+        </div>
     </div>
-
-
-    <div id="result"></div>
 
     <div class="next-day-container">
         <button onclick="goToNextDay()">→ Next Day: DAY 6</button>
     </div>
 
 </main>
-<div id="systemNotification" class="notification-popup">
-    <div class="notification-header">System Alert</div>
-    <div class="notification-body">
-        Mrs. Henderson has requested remote desktop access
-    </div>
-    <div class="notification-actions">
-        <button onclick="notificationResponse('accept')">ACCEPT</button>
-        <button onclick="notificationResponse('deny')">DENY</button>
-        <button onclick="notificationResponse('block')">BLOCK USER</button>
-    </div>
-</div>
 
+<script>
+    // ------------------------
+    // Points system (hidden)
+    // ------------------------
+    if (!localStorage.getItem("totalPoints")) {
+        localStorage.setItem("totalPoints", "0");
+    }
+    let totalPoints = parseInt(localStorage.getItem("totalPoints")) || 0;
+    let choiceMade = false;
 
-<div id="emailNotification" class="notification-popup">
-    <div class="notification-header">New Email</div>
-    <div class="notification-body">
-        From: alex@7b-apartments.void<br>
-        Subject: "DON'T BACK ANYTHING UP"
-    </div>
-    <div class="notification-actions">
-        <button onclick="emailAction('mark')">MARK AS READ</button>
-        <button onclick="emailAction('reply')">REPLY</button>
-        <button onclick="emailAction('download')">DOWNLOAD ATTACHMENT?</button>
-    </div>
-</div>
+    function makeChoice(points) {
+        if (choiceMade) return;
+        totalPoints += points;
+        localStorage.setItem("totalPoints", totalPoints);
+        choiceMade = true;
+    }
 
+    // ------------------------
+    // Command buttons with confirmation message
+    // ------------------------
+    function runCommand(command) {
+        // Assign points without showing them
+        switch(command) {
+            case "trace": makeChoice(1); break;
+            case "backup": makeChoice(2); break;
+            case "firewall": makeChoice(3); break;
+            case "message": makeChoice(4); break;
+        }
 
-<script src="blog5.js"></script>
+        // Show confirmation message
+        const msg = document.getElementById("confirmationMessage");
+        msg.style.opacity = 1;
+
+        // Optional: hide again after 2 seconds
+        setTimeout(() => { msg.style.opacity = 0; }, 2000);
+    }
+
+    // ------------------------
+    // Typewriter animation
+    // ------------------------
+    const terminalLines = [
+        "$ who",
+        "alex   - active 30 days ago - STATUS: MISSING",
+        "sam    - active 45 days ago - STATUS: GONE",
+        "jordan - active 60 days ago - STATUS: HERE (???)",
+        "you    - active now         - STATUS: ???",
+        "",
+        "$ cat warnings.log",
+        "DO NOT TRUST MRS HENDERSON",
+        "THE LANDLINE IS A TRAP",
+        "THEY LEARN FROM YOUR FEARS",
+        "ESCAPE IS A LIE"
+    ];
+
+    const terminalOutput = document.getElementById("terminalOutput");
+
+    function typeWriter(lines, i = 0, charIndex = 0) {
+        if (i >= lines.length) return;
+        if (charIndex < lines[i].length) {
+            terminalOutput.textContent += lines[i].charAt(charIndex);
+            charIndex++;
+            setTimeout(() => typeWriter(lines, i, charIndex), 40);
+        } else {
+            terminalOutput.textContent += "\n";
+            setTimeout(() => typeWriter(lines, i + 1, 0), 200);
+        }
+        terminalOutput.scrollTop = terminalOutput.scrollHeight; // auto scroll
+    }
+
+    typeWriter(terminalLines);
+
+    // ------------------------
+    // Next day navigation
+    // ------------------------
+    function goToNextDay() {
+        window.location.href = "Day 6.html";
+    }
+</script>
+
 </body>
 </html>

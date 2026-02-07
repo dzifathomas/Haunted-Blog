@@ -5,6 +5,8 @@
   <link rel="stylesheet" href="blog3.css">
   <title>Day 3: Whispering Trials</title>
 </head>
+
+
 <script>
   function goToNextDay() {
 
@@ -32,20 +34,32 @@
     <p class="question">Question 1: "What do you fear most?"</p>
 
     <div class="preset-list">
-      <button class="preset"><strong>"Being trapped forever"</strong></button>
-      <button class="preset"><strong>"Losing my mind"</strong></button>
-      <button class="preset"><strong>"Nothing, I'm not afraid"</strong></button>
-      <button class="preset"><strong>"Why should I tell you?"</strong></button>
+      <button class="preset" onclick="selectFear(this, 1)">
+        <strong>"Being trapped forever"</strong>
+        </button>
+        
+        <button class="preset" onclick="selectFear(this, 2)">
+        <strong>"Losing my mind"</strong>
+        </button>
+        
+        <button class="preset" onclick="selectFear(this, 3)">
+        <strong>"Nothing, I'm not afraid"</strong>
+        </button>
+        
+        <button class="preset" onclick="selectFear(this, 4)">
+        <strong>"Why should I tell you?"</strong>
+        </button>
+        
     </div>
 
-    <!-- Action Buttons -->
+
     <div class="panel">
       <button class="btn post" id="postBtn">POST COMMENT</button>
       <button class="btn save" id="saveBtn">SAVE FOR LATER</button>
       <button class="btn delete" id="deleteBtn">DELETE DRAFT</button>
     </div>
 
-    <!-- Live Comments -->
+
     <div class="live-comments">
       <h3 class="section-title">Live Comments (Real-time Updates)</h3>
 
@@ -79,6 +93,7 @@
       → Next Day: DAY 4
     </button>
   </div>
+  <script src="main.js"></script>
 
 </body>
 

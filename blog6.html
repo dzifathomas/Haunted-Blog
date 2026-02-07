@@ -1,79 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Day 6</title>
     <link rel="stylesheet" href="blog6.css">
+    <style>
+
+        .choice-confirmation-message {
+            color: #0f0;
+            font-size: 14px;
+            font-style: italic;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .choices button {
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .choices button.selected {
+            border: 2px solid #33ff88;
+            background-color: #111;
+        }
+    </style>
 </head>
 
 <body>
+<main class="blog">
+    <h1>Day 6: The Offer</h1>
+    <h3>Posted: Saturday, October 28 • 11:59 PM</h3>
 
-    <main class="blog">
-        <h1>Day 6: The Offer</h2>
+    <p>
+        She came clean. Her son died in this apartment decades ago. She feeds it tenants to keep its spirit "alive." Now she offers me a choice:
+    </p>       
+    <p>Become the new landlady (pass the curse along)</p>
+    <p>OR</p>
+    <p>Join the collection (become permanent decor)</p>
 
-        <h3>Posted: Saturday, October 28 • 11:59 PM</h3>
+    <div class="peepHoleLady">
+        <img src="peepHole.webp" alt="landlady behind peep hole" width="450" height="450">
+    </div>
 
+    <div class="user-choice-section">
+        <p>What's your answer?</p>
 
-        <p>
-            She came clean. Her son died in this apartment decades ago. She feeds it tenants to keep his spirit "alive." Now she offers me a choice:
-        </p>       
-        <p>
-            Become the new landlady (pass the curse along)
-        </p>
-        <p>
-            OR
-        </p>
-        <p>
-            Join the collection (become permanent decor)
-        </p>
-        <div class="peepHoleLady">
-            <img src="peepHole.webp" alt="landlady behind peep hole" width="450" height="450">
-        </div>
-
-
-
-
-<div class="user-choice-section">
-    <h3> USER CHOICE SECTION:</h3>
-
-    <p>What's your answer?</p>
         <div class="choices">
-
-            <button onclick="makeChoice(2)">
-                I'll take your deal
-            </button>
-
-            <button onclick="makeChoice(5)">
-                I'll free everyone
-            </button>
-
-            <button onclick="makeChoice(1)">
-                I'm getting out of here
-            </button>
-
-            <button onclick="makeChoice(1)">
-                I don't believe any of this
-            </button>
-
+            <button data-points="2">I'll take your deal</button>
+            <button data-points="5">I'll free everyone</button>
+            <button data-points="1">I'm getting out of here</button>
+            <button data-points="1">I don't believe any of this</button>
         </div>
 
-    
-    <p>Your choice will be honored. The walls are listening. The pipes remember. The wires never forget.</p>
-    
 
+        <div id="confirmationMessage" class="choice-confirmation-message">
+            ✅ Your choice has been recorded.
+        </div>
 
-
-
+        <p>Your choice will be honored. The walls are listening. The pipes remember. The wires never forget.</p>
     </div>
 
-    <!-- NEXT DAY BUTTON -->
+
     <div class="next-day-container">
-        <button onclick="goToNextDay()">
-            → Next Day: DAY 7
-        </button>
+        <button id="nextDayBtn">→ See Your Ending</button>
     </div>
+</main>
+
+<script src="main.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const choiceButtons = document.querySelectorAll(".choices button");
+        const confirmationMsg = document.getElementById("confirmationMessage");
+        const nextDayBtn = document.getElementById("nextDayBtn");
+        let choiceMade = false;
+
+        choiceButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                if (choiceMade) return; 
+
+                const points = parseInt(button.getAttribute("data-points")) || 0;
+                totalPoints += points;
+                localStorage.setItem("totalPoints", totalPoints);
+
+                choiceMade = true;
+
+     
+                confirmationMsg.style.display = "block";
 
 
-    </main>
+                button.classList.add("selected");
 
+             
+                choiceButtons.forEach(btn => btn.disabled = true);
+            });
+        });
+
+
+        nextDayBtn.addEventListener("click", () => {
+            window.location.href = "random-ending.html";
+        });
+    });
+</script>
 </body>
 </html>

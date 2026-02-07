@@ -76,11 +76,11 @@
 
             <h3>What should I do tonight?</h3>
 
-            <button onclick="makeChoice(2)">
+            <button onclick="makeChoice(3)">
                 Listen to the audio
             </button>
 
-            <button onclick="makeChoice(5)">
+            <button onclick="makeChoice(2)">
                 View the photo
             </button>
 
@@ -113,30 +113,30 @@
 
     </main>
 
+    <script src="main.js"></script>
 
+    <script>
+    const form = document.getElementById("rsvp-form");
+    const modal = document.getElementById("success-modal");
+    const modalText = document.getElementById("modal-text");
 
-<script>
-const form = document.getElementById("rsvp-form");
-const modal = document.getElementById("success-modal");
-const modalText = document.getElementById("modal-text");
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
 
-form.addEventListener("submit", function(event) {
-    event.preventDefault();
+        modalText.textContent = "corpse :3";
 
-    modalText.textContent = "corpse :3";
+        modal.style.display = "flex";
 
-    modal.style.display = "flex";
+        setTimeout(() => {
+            modal.style.display = "none";
+            modalText.textContent = "";
+        }, 3000);
+    });
 
-    setTimeout(() => {
-        modal.style.display = "none";
-        modalText.textContent = "";
-    }, 3000);
-});
-
-function goToNextDay() {
-    window.location.href = "blog3.html";
-}
-</script>
+    function goToNextDay() {
+        window.location.href = "blog3.html";
+    }
+    </script>
 
 
 
