@@ -165,13 +165,6 @@ p {
     margin-bottom: 6px;
 }
 
-.denied-static {
-    font-family: monospace;
-    font-size: 10px;
-    opacity: 0.6;
-}
-
-
 .camera-controls {
     margin-top: 10px;
     display: flex;
